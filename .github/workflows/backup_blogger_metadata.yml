@@ -1,22 +1,22 @@
 name: Backup Blogger Metadata
 on:
   schedule:
-    - cron: '0 3 * * 0'  # Каждое воскресенье в 03:00 UTC
+    - cron: '0 3 * * 0' # Каждое воскресенье в 03:00 UTC
   workflow_dispatch:
-
 jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Backup metadata
+      - name: Placeholder for Blogger Metadata Backup
         run: |
-          # Скрипт бэкапа метаданных из Blogger API
-          python scripts/export_to_gallery.py --backup
-      - name: Commit and push
+          echo "Metadata backup will be implemented via Python script when API credentials are configured in GitHub Secrets."
+          mkdir -p shared-assets
+          echo '{"status": "pending_api_setup"}' > shared-assets/blogger_image_metadata.json
+      - name: Commit placeholder
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add shared-assets/blogger_image_metadata.json
-          git commit -m "chore: weekly Blogger metadata backup" || exit 0
+          git commit -m "chore: weekly metadata backup placeholder" || exit 0
           git push
