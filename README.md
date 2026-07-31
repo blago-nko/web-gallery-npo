@@ -11,11 +11,11 @@
 - **Страниц:** ~16 616 (по 50 изображений на страницу)
 - **Навигация:** через labels (теги) Blogger
 
-## ️ Архитектура
+## 🏗️ Архитектура
 
 Этот репозиторий содержит:
 - XML-шаблон Blogger (`blogger-template/template.xml`)
-- Скрипты автоматизации (`scripts/`) — **запускаются через Google Colab**
+- Скрипты автоматизации (`scripts/`)
 - Конфигурации экспорта (`config/`)
 - GitHub Actions workflows (`.github/workflows/`)
 
@@ -35,10 +35,8 @@
 2. Blogger → Тема → Изменить HTML → Удалить всё → Вставить код → Сохранить
 3. Настройки → Сообщения → Максимальное количество сообщений = **50**
 
-### Настройка автоматизации через Google Colab
+### Настройка IGalleryExporter
 
-1. Откройте [Google Colab](https://colab.research.google.com)
-2. Загрузите скрипт `scripts/export_to_gallery.py`
-3. Установите зависимости:
-   ```python
-   !pip install google-api-python-client
+```bash
+cd scripts
+python export_to_gallery.py --init
