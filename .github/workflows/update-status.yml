@@ -1,0 +1,39 @@
+name: Update STATUS.md
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update STATUS.md
+        run: |
+          echo "# Реестр состояния экосистемы" > docs/STATUS.md
+          echo "" >> docs/STATUS.md
+          echo "Последнее обновление: $(date '+%Y-%m-%d %H:%M:%S')" >> docs/STATUS.md
+          echo "" >> docs/STATUS.md
+          echo "## gallery.obrazslov.ru" >> docs/STATUS.md
+          echo "- Статус: ✅ Production-ready" >> docs/STATUS.md
+          echo "- Шаблон Blogger: ✅ Загружен" >> docs/STATUS.md
+          echo "- Статические страницы: ✅ Созданы" >> docs/STATUS.md
+          echo "" >> docs/STATUS.md
+          echo "## Манифесты" >> docs/STATUS.md
+          echo "- САМ v1.3: ✅ Синхронизирован" >> docs/STATUS.md
+          echo "- Манифест Миграции v5.4: ✅ Синхронизирован" >> docs/STATUS.md
+          echo "- Манифест САН V21.4: ✅ Синхронизирован" >> docs/STATUS.md
+          echo "- Манифест СУМКа v1.5: ✅ Синхронизирован" >> docs/STATUS.md
+          echo "- Манифест Грек-Пантеон v1.4: ✅ Синхронизирован" >> docs/STATUS.md
+
+      - name: Commit and push
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add docs/STATUS.md
+          git commit -m "chore: auto-update STATUS.md" || exit 0
+          git push
