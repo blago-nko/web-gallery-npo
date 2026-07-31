@@ -1,37 +1,22 @@
 name: Backup Blogger Metadata
-
 on:
   schedule:
-    # Каждое воскресенье в 03:00 UTC
-    - cron: '0 3 * * 0'
-  workflow_dispatch: # Ручной запуск
+    - cron: '0 3 * * 0'  # Каждое воскресенье в 03:00 UTC
+  workflow_dispatch:
 
 jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+      - uses: actions/checkout@v4
+      - name: Backup metadata
         run: |
-          pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
-
-      - name: Backup Blogger metadata
-        env:
-          BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
-          BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
-        run: |
+          # Скрипт бэкапа метаданных из Blogger API
           python scripts/export_to_gallery.py --backup
-
-      - name: Commit and push if changed
+      - name: Commit and push
         run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add shared-assets/blogger_image_metadata.json || true
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: weekly Blogger metadata backup" && git push)
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add shared-assets/blogger_image_metadata.json
+          git commit -m "chore: weekly Blogger metadata backup" || exit 0
+          git push
